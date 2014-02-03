@@ -8,7 +8,8 @@ def strm():
 def prnt():
   c = sqlite3.connect('waluigi_tt.db')
   cur = c.cursor()
-  cur.execute("SELECT user,status from tweets order by user, limit 1") 
+  
+  cur.execute("select * from tweets where rowid = (select max(rowid) from tweets)")
   r = cur.fetchone()
   print "content {0}".format(r)
 

@@ -49,5 +49,7 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+
+*.db
 *.db*
-bot.py
+bot.*
