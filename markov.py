@@ -1,4 +1,3 @@
-
 # mostly taken from  Kernighan and Pike 'The Practice of Programming'
 
 import random
@@ -8,7 +7,7 @@ sen_lim = (".", "!", "?",) # Cause a "new sentence" if found at the end of a wor
 sen_sep  = "\n" #String used to seperate sentences
 
 
-# GENERATE TABLE
+# Gcreate lookups
 first_stop = stop
 second_stop = stop
 table = {}
@@ -22,10 +21,10 @@ for line in src_txt:
             word = word[-1]
         table.setdefault( (first_stop, second_stop), [] ).append(word)
         first_stop, second_stop = second_stop, word
-# Mark the end of the file
+# indicate EoP
 table.setdefault( (first_stop, second_stop), [] ).append(stop)
 
-# GENERATE SENTENCE OUTPUT
+#sentence structure
 max_groups  = 5
 
 first_stop = stop
