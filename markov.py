@@ -2,9 +2,9 @@
 
 import random
 
-stop = "\n" # Since we split on whitespace, this can never be a word
-sen_lim = (".", "!", "?",) # Cause a "new sentence" if found at the end of a word
-sen_sep  = "\n" #String used to seperate sentences
+stop = "\n" #EoL marker is the limit
+sen_lim = (".", "!", "?",) # figure out punctuation errors
+sen_sep  = "\n" #output limit
 
 
 # Gcreate lookups
