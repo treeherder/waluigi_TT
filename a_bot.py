@@ -4,7 +4,7 @@
 from tweepy import API,OAuthHandler,Stream 
 import __builtin__
 from tweepy.streaming import StreamListener
-import sqlite3
+import sqlite3, sys
 
 
 #these variables can be found in the http://dev.twitter.com  setup page
@@ -20,7 +20,6 @@ ACCESS_TOKEN = '__________________'
 TOKEN_SECRET = '__________________'
 
 #==============================================================================
-
 
 #make sure this part gets copied over exactly to a_bot.py
 
@@ -42,16 +41,20 @@ class Listener(StreamListener):  #taken from tweepy github
       geo = status.coordinates
       src = status.source.strip()
       ts = status.created_at
-      print txt
-
-      cur.execute("insert into tweets (uid, user, timestamp, status, \
-                         replies, geo, source)        \
-                          values(?, ?, ?, ?, ?, ?, ?)",                  \
-                          (uid, usr, ts, txt, recip, geo, src))
+      cur.execute("insert into tweets (user,  status, uid) values(?, ?, ?)", (usr,  txt, uid))
+      c.commit()
 
     except Exception as exc:
       # Most errors we're going to see relate to the handling of UTF-8 messages (sorry)
-      print(exc)
+      print 'error'      
+    if usr == "tree_herder":
+      print usr, txt
+      if "l_on" in txt:
+        print "lights on"
+        sys.call(["sh", "/home/pi/meetups/lamp.sh", "1"])
+      elif "l_off" in txt:
+        print "lights off"
+        sys.call(["sh", "/home/pi/meetups/lamp.sh", "0"])
 
   def on_error(self, status):
     print status
@@ -61,5 +64,3 @@ auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, TOKEN_SECRET)
 __builtin__.handle = API(auth)
 __builtin__.stream =Stream(auth, listener)
-
-#stream.filter(track=['arduino'])
